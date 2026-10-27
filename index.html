@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Real life avatar yolo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="userchip">MPPstarplace <b class="badge">M</b></div>
+
+  <div class="layout">
+    <nav class="sidebar" aria-label="Wardrobe">
+      <span class="logo" title="Real life avatar yolo">R</span>
+      <a href="#home" data-link="home">
+        <svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10H3z"/><path d="M9 21v-6h6v6"/></svg><span>Home</span></a>
+      <a href="#closet" data-link="closet">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2"/></svg><span>My closet</span></a>
+      <a href="#studio" data-link="studio">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg><span>Studio</span></a>
+    </nav>
+
+    <main>
+      <!-- VIEW 1: HOME -->
+      <section id="view-home" class="view">
+        <p class="small">Home</p>
+        <h1>My avatar</h1>
+        <div class="two">
+          <div>
+            <div class="panel">
+              <div class="row"><strong>MPPstarplace</strong><span class="small">Avatar</span></div>
+              <a class="btn" href="#studio">Edit outfit</a>
+              <button class="btn ghost" data-action="photo">Change photo</button>
+            </div>
+            <div class="stage" id="stage-home"></div>
+          </div>
+          <div>
+            <h2>What do you want to do?</h2>
+            <a class="panel action" href="#closet"><h3>Take a look at Michelle's closet</h3><p class="small" id="closet-blurb"></p></a>
+            <a class="panel action" href="#studio"><h3>I dont know what to wear</h3><p class="small">Browse your clothes and put an outfit on your photo.</p></a>
+            <p class="small" id="counts"></p>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="row"><strong>Equipped outfit</strong><button class="link" data-action="clear">Clear outfit</button></div>
+          <div class="equipped"></div>
+        </div>
+      </section>
+
+      <!-- VIEW 2: CLOSET -->
+      <section id="view-closet" class="view">
+        <div class="row">
+          <div><p class="small">Home / My closet</p><h1>Michelle's closet</h1></div>
+          <button class="btn" data-action="add">+ Add a new item</button>
+        </div>
+        <input id="search" type="search" placeholder="Search your closet" aria-label="Search your closet">
+        <div class="tabs" data-view="closet"></div>
+        <div class="grid" id="grid-closet"></div>
+      </section>
+
+      <!-- VIEW 3: OUTFIT STUDIO -->
+      <section id="view-studio" class="view">
+        <p class="small">Outfit studio</p>
+        <h1>I dont know what to wear</h1>
+        <div class="two studio">
+          <div>
+            <div class="panel">
+              <div class="row"><strong>On Michelle</strong><span class="small" id="studio-count"></span></div>
+              <button class="btn ghost" data-action="clear">Clear outfit</button>
+              <button class="btn ghost" data-action="photo">Change photo</button>
+            </div>
+            <div class="stage" id="stage-studio"></div>
+            <!-- Fit controls: work on whichever worn item is selected -->
+            <div class="panel fit">
+              <strong id="fit-name"></strong>
+              <p class="small">Drag an item on your photo to move it. Use the slider to resize it.</p>
+              <label class="small">Size <input type="range" id="size" min="8" max="100" step="0.5"></label>
+              <button class="btn ghost" id="reset-fit" data-action="reset-fit">Reset position</button>
+            </div>
+          </div>
+          <div>
+            <h2>Pick your pieces</h2>
+            <div class="tabs" data-view="studio"></div>
+            <div class="grid" id="grid-studio"></div>
+          </div>
+        </div>
+        <div class="panel"><div class="equipped"></div></div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Hidden file picker for YOUR photo -->
+  <input type="file" id="me-input" accept="image/*" hidden>
+
+  <!-- ADD ITEM: a <dialog> opens on top of the current page (no new page) -->
+  <dialog id="add-dialog" class="modal">
+    <form id="add-form">
+      <div class="modal-body">
+        <div>
+          <h3>Item photo</h3>
+          <div class="preview-box"><img id="photo-preview" alt="Preview of the new item" hidden></div>
+          <div class="row pick">
+            <button type="button" class="btn ghost" data-action="pick-item">Choose photo</button>
+            <span class="small" id="photo-name">No photo chosen</span>
+          </div>
+          <input type="file" id="item-photo" accept="image/*" hidden>
+          <label class="small check"><input type="checkbox" id="remove-bg" checked> Remove the plain background</label>
+        </div>
+        <div>
+          <h3>Item name</h3>
+          <input id="item-name" required placeholder="Enter item name">
+          <h3>Clothing type</h3>
+          <p class="small">Choose one category.</p>
+          <div class="choices" id="cat-options"></div>
+          <p class="error" id="form-error"></p>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button type="button" class="btn ghost" id="cancel-add">Cancel</button>
+        <button type="submit" class="btn">Add to closet</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
